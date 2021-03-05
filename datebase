@@ -1,0 +1,60 @@
+CREATE DATABASE EAZYBANK;
+
+USE EAZYBANK;
+
+CREATE TABLE Customerdetails(
+account_number INT(10) PRIMARY KEY AUTO_INCREMENT,
+account_type VARCHAR(10) NOT NULL,
+first_name VARCHAR(10) NOT NULL,
+last_name VARCHAR(10) NOT NULL,
+gender CHAR(10) NOT NULL ,
+dob DATE ,
+city VARCHAR(10) NOT NULL,
+state VARCHAR(10) NOT NULL,
+Aadhaar_number VARCHAR(15) NOT NULL,
+balance DOUBLE NOT NULL,
+user_name VARCHAR(10) NOT NULL,
+PASSWORD VARCHAR(8) NOT NULL
+);
+
+
+CREATE TABLE transactions(
+        t_id INT(10) PRIMARY KEY AUTO_INCREMENT,
+        account_number INT(10) NOT NULL,
+          date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,   
+        transaction_type VARCHAR(15) NOT NULL CHECK(transaction_type IN ('Deposit','Withdrawal','Fund Transfer','Fixed Deposit')),
+        to_acc INT(10) ,
+        TYPE VARCHAR(10),
+        amount DOUBLE NOT NULL,
+        Current_balance DOUBLE NOT NULL CHECK(Current_balance>0),
+        CONSTRAINT fk_transactions  FOREIGN KEY(account_number)
+         REFERENCES customerdetails(account_number)
+        ON DELETE CASCADE
+          ON UPDATE CASCADE
+
+        );
+
+DESC transactions;
+
+
+
+CREATE TABLE Update_Requests(
+S_No INT PRIMARY KEY AUTO_INCREMENT,
+account_number INT (10) NOT NULL ,
+description VARCHAR(50) NOT NULL
+);
+
+
+CREATE TABLE Fixed_deposit(
+fd_no INT(10) PRIMARY KEY AUTO_INCREMENT,
+ date DATE DEFAULT NOW() NOT NULL,
+ acc_number INT(10) NOT NULL,
+ Rate_of_Interest INT(10) NOT NULL,
+ Period INT(10) NOT NULL,
+ Maturity_Amount INT(10) NOT NULL,
+ CONSTRAINT fk_Fixed_deposit  FOREIGN KEY(acc_number)  
+       REFERENCES customerdetails(account_number)    
+        );
+        
+
+
